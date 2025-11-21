@@ -104,13 +104,14 @@ describe('App', () => {
     
     const advanceButton = screen.getByRole('button', { name: 'Advance Cycle' })
     
-    // Advance 4 cycles to complete the issues
-    for (let i = 0; i < 4; i++) {
+    // Advance 5 cycles to complete the issues (1+2+1+1 = 5 cycles total)
+    // Issues spend: 1 cycle in Scheduled, 2 in Development, 1 in Review, 1 in Merged
+    for (let i = 0; i < 5; i++) {
       await user.click(advanceButton)
     }
     
-    // Throughput should be 2 issues / 4 cycles = 0.50
-    expect(screen.getByText('0.50')).toBeInTheDocument()
+    // Throughput should be 2 issues / 5 cycles = 0.40
+    expect(screen.getByText('0.40')).toBeInTheDocument()
     expect(screen.getByText('2')).toBeInTheDocument() // Processed count
   })
 

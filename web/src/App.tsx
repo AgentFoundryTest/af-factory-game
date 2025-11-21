@@ -45,7 +45,7 @@ function App() {
    * Advance the game by one cycle
    * - Increment cycle counters for all issues
    * - Move issues to next stage if they've spent enough cycles
-   * - Remove merged issues
+   * - Remove merged issues after they've been visible
    */
   const advanceCycle = useCallback(() => {
     setGameState(prev => {
@@ -73,8 +73,8 @@ function App() {
           }
         })
         .filter(issue => {
-          // Remove merged issues and count them
-          if (issue.stage === 'merged') {
+          // Remove merged issues after they've been visible for required cycles
+          if (issue.stage === 'merged' && issue.cyclesInStage >= CYCLES_PER_STAGE['merged']) {
             mergedCount++
             return false
           }

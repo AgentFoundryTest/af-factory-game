@@ -143,7 +143,7 @@ The pipeline simulates a software development workflow where issues progress thr
 1. **Scheduled** (1 cycle) → Issues wait to be picked up
 2. **In Development** (2 cycles) → Active development work
 3. **In Review** (1 cycle) → Code review and QA
-4. **Merged** → Completed and removed from pipeline
+4. **Merged** (1 cycle) → Completed and visible before removal
 
 Issues automatically advance after spending the required cycles in each stage. Players can:
 - **Spawn Issue**: Create new work items (max 50 concurrent)
@@ -161,7 +161,7 @@ Issues automatically advance after spending the required cycles in each stage. P
 - ✅ Zero issues state handled gracefully across all pipeline stages
 - ✅ Issue ordering remains stable during concurrent spawning and cycle advancement
 - ✅ Auto-cycle cleanup prevents memory leaks on component unmount
-- ✅ Merged issues immediately removed to maintain clean pipeline state
+- ✅ Merged issues visible for one cycle before removal to show completion
 
 ## Contributing
 

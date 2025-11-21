@@ -56,7 +56,7 @@ export const CYCLES_PER_STAGE: Readonly<Record<Stage, number>> = {
   'scheduled': 1,
   'in-development': 2,
   'in-review': 1,
-  'merged': 0 // Issues are removed immediately after reaching merged
+  'merged': 1 // Issues stay visible in merged stage for 1 cycle before removal
 }
 
 /**
