@@ -100,6 +100,11 @@ export const STAGE_ORDER: readonly Stage[] = ['scheduled', 'in-development', 'in
 export const CREDITS_PER_ISSUE = 10
 
 /**
+ * Bonus credits added per completed issue when upgrade is active
+ */
+export const BONUS_CREDITS_AMOUNT = 5
+
+/**
  * Upgrade definitions
  */
 export const UPGRADE_DEFINITIONS: Readonly<Record<UpgradeType, Omit<Upgrade, 'level'>>> = {
@@ -114,10 +119,10 @@ export const UPGRADE_DEFINITIONS: Readonly<Record<UpgradeType, Omit<Upgrade, 'le
   'bonus-credits': {
     id: 'bonus-credits',
     name: 'Bonus Credits',
-    description: 'Earn 5 additional credits per completed issue',
+    description: `Earn ${BONUS_CREDITS_AMOUNT} additional credits per completed issue`,
     cost: 40,
     maxLevel: 1,
-    effect: 'Credits per issue: 10 → 15'
+    effect: `Credits per issue: ${CREDITS_PER_ISSUE} → ${CREDITS_PER_ISSUE + BONUS_CREDITS_AMOUNT}`
   }
 }
 
@@ -152,7 +157,7 @@ export function getCreditsPerIssue(upgrades: Record<UpgradeType, number>): numbe
   
   // Apply bonus-credits upgrade
   if (upgrades['bonus-credits'] > 0) {
-    credits += 5 * upgrades['bonus-credits']
+    credits += BONUS_CREDITS_AMOUNT * upgrades['bonus-credits']
   }
   
   return credits
