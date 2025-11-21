@@ -61,7 +61,7 @@ function App() {
       {/* Tutorial overlay */}
       <Tutorial 
         showOnStart={gameState.settings.showTutorial}
-        onClose={() => updateSettings({ showTutorial: false })}
+        onClose={() => {}}
       />
 
       {/* Footer */}
