@@ -109,11 +109,18 @@ function migrateState(persistedState: PersistedState): GameState | null {
     if (persistedState.version === 1) {
       // Migrate from v1 to v2: replace faster-review with bonus-credits
       const oldState = persistedState.state as unknown as LegacyGameStateV1
+      
+      // Validate the old state has the expected structure
+      if (!oldState.upgrades || typeof oldState.upgrades['faster-development'] !== 'number') {
+        console.warn('Invalid v1 state structure, starting fresh')
+        return null
+      }
+      
       const newState: GameState = {
         ...oldState,
         upgrades: {
           'faster-development': oldState.upgrades['faster-development'] || 0,
-          'bonus-credits': 0  // Reset faster-review to 0 for new upgrade
+          'bonus-credits': 0  // Initialize new bonus-credits upgrade
         }
       }
       console.log('Migrated state from v1 to v2')
