@@ -8,18 +8,22 @@ A client-side automation game built with Vite + React + TypeScript + Tailwind CS
 
 ```
 .
-├── web/               # Main SPA application
-│   ├── src/          # Source code
-│   │   ├── App.tsx   # Main application component
-│   │   ├── main.tsx  # Application entry point
-│   │   └── test/     # Test setup files
-│   ├── public/       # Static assets
-│   └── dist/         # Production build output (generated)
-├── package.json
-├── vite.config.ts
-├── tailwind.config.js
-├── postcss.config.js
-└── tsconfig.json
+├── web/                      # Main SPA application
+│   ├── src/                  # Source code
+│   │   ├── App.tsx           # Main application component
+│   │   ├── main.tsx          # Application entry point
+│   │   └── test/             # Test setup files
+│   ├── public/               # Static assets
+│   ├── dist/                 # Production build output (generated)
+│   ├── package.json          # NPM dependencies and scripts
+│   ├── vite.config.ts        # Vite configuration
+│   ├── tailwind.config.js    # Tailwind CSS configuration
+│   ├── postcss.config.js     # PostCSS configuration
+│   ├── tsconfig.json         # TypeScript configuration (root)
+│   ├── tsconfig.app.json     # TypeScript app configuration
+│   └── tsconfig.node.json    # TypeScript node configuration
+├── README.md                 # This file
+└── LICENSE                   # GPLv3 license
 ```
 
 ## Prerequisites
