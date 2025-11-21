@@ -201,10 +201,12 @@ describe('Persistence utilities', () => {
       expect(loaded!.credits).toBe(200)
       expect(loaded!.upgrades['faster-development']).toBe(1)
       expect(loaded!.upgrades['bonus-credits']).toBe(0) // New upgrade initialized
-      // console.warn is called with multiple arguments, not a single string
+      // Verify console.warn was called with migration message
       expect(consoleWarnSpy).toHaveBeenCalled()
-      const warnCall = consoleWarnSpy.mock.calls[0].join(' ')
-      expect(warnCall).toContain('Schema version mismatch')
+      const warnArgs = consoleWarnSpy.mock.calls[0]
+      expect(warnArgs[0]).toContain('Schema version mismatch')
+      expect(warnArgs).toContain(1)
+      expect(warnArgs).toContain(2)
       expect(consoleLogSpy).toHaveBeenCalledWith('Migrated state from v1 to v2')
       
       consoleWarnSpy.mockRestore()
