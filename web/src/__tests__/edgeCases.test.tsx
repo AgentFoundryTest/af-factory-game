@@ -25,12 +25,19 @@ describe('Edge cases - State transitions', () => {
       await user.click(advanceButton)
       await user.click(advanceButton)
       
-      // Verify cycle counter updated correctly (should be 5)
-      expect(screen.getByText('5')).toBeInTheDocument()
+      // Verify HUD counters updated correctly after rapid advancement
+      // Cycle counter should be 5
+      const hudSection = screen.getByText(/Cycle:/).parentElement
+      expect(hudSection).toHaveTextContent('5')
       
-      // All issues should have progressed through the pipeline
-      // After 5 cycles: issues complete (1+2+1+1=5 cycles total)
-      expect(screen.getByText(/Processed:/)).toBeInTheDocument()
+      // All 3 issues should have completed (1+2+1+1=5 cycles total)
+      // Verify processed counter shows 3
+      const processedSection = screen.getByText(/Processed:/).parentElement
+      expect(processedSection).toHaveTextContent('3')
+      
+      // Throughput should be 3/5 = 0.60
+      const throughputSection = screen.getByText(/Throughput:/).parentElement
+      expect(throughputSection).toHaveTextContent('0.60')
     })
 
     it('maintains issue ordering during rapid state changes', async () => {
