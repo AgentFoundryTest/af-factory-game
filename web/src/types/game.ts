@@ -6,7 +6,7 @@ export type Stage = 'scheduled' | 'in-development' | 'in-review' | 'merged'
 /**
  * Display labels for each stage
  */
-export const STAGE_LABELS: Record<Stage, string> = {
+export const STAGE_LABELS: Readonly<Record<Stage, string>> = {
   'scheduled': 'Scheduled',
   'in-development': 'In Development',
   'in-review': 'In Review',
@@ -16,7 +16,7 @@ export const STAGE_LABELS: Record<Stage, string> = {
 /**
  * Color classes for each stage (Tailwind)
  */
-export const STAGE_COLORS: Record<Stage, string> = {
+export const STAGE_COLORS: Readonly<Record<Stage, string>> = {
   'scheduled': 'bg-blue-600',
   'in-development': 'bg-yellow-600',
   'in-review': 'bg-purple-600',
@@ -52,7 +52,7 @@ export const MAX_CONCURRENT_ISSUES = 50
 /**
  * Number of cycles an issue must spend in each stage before advancing
  */
-export const CYCLES_PER_STAGE: Record<Stage, number> = {
+export const CYCLES_PER_STAGE: Readonly<Record<Stage, number>> = {
   'scheduled': 1,
   'in-development': 2,
   'in-review': 1,
@@ -62,4 +62,4 @@ export const CYCLES_PER_STAGE: Record<Stage, number> = {
 /**
  * Stage progression order
  */
-export const STAGE_ORDER: Stage[] = ['scheduled', 'in-development', 'in-review', 'merged']
+export const STAGE_ORDER: readonly Stage[] = ['scheduled', 'in-development', 'in-review', 'merged']
