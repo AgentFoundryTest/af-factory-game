@@ -34,6 +34,33 @@ export interface Issue {
 }
 
 /**
+ * Upgrade types that affect gameplay
+ */
+export type UpgradeType = 'faster-development' | 'bonus-credits'
+
+/**
+ * Upgrade definition
+ */
+export interface Upgrade {
+  id: UpgradeType
+  name: string
+  description: string
+  cost: number
+  level: number
+  maxLevel: number
+  effect: string
+}
+
+/**
+ * Game settings
+ */
+export interface GameSettings {
+  autoCycleSpeed: number // milliseconds per cycle
+  animationsEnabled: boolean
+  showTutorial: boolean
+}
+
+/**
  * Overall game state
  */
 export interface GameState {
@@ -42,6 +69,9 @@ export interface GameState {
   currentCycle: number
   isAutoCycleEnabled: boolean
   totalIssuesProcessed: number // Count of issues that reached "merged"
+  credits: number
+  upgrades: Record<UpgradeType, number> // upgrade level for each type
+  settings: GameSettings
 }
 
 /**
@@ -63,3 +93,72 @@ export const CYCLES_PER_STAGE: Readonly<Record<Stage, number>> = {
  * Stage progression order
  */
 export const STAGE_ORDER: readonly Stage[] = ['scheduled', 'in-development', 'in-review', 'merged']
+
+/**
+ * Credits earned per completed issue
+ */
+export const CREDITS_PER_ISSUE = 10
+
+/**
+ * Bonus credits added per completed issue when upgrade is active
+ */
+export const BONUS_CREDITS_AMOUNT = 5
+
+/**
+ * Upgrade definitions
+ */
+export const UPGRADE_DEFINITIONS: Readonly<Record<UpgradeType, Omit<Upgrade, 'level'>>> = {
+  'faster-development': {
+    id: 'faster-development',
+    name: 'Faster Development',
+    description: 'Reduce development time by 1 cycle per level',
+    cost: 50,
+    maxLevel: 1,
+    effect: 'Dev cycles: 2 → 1'
+  },
+  'bonus-credits': {
+    id: 'bonus-credits',
+    name: 'Bonus Credits',
+    description: `Earn ${BONUS_CREDITS_AMOUNT} additional credits per completed issue`,
+    cost: 40,
+    maxLevel: 1,
+    effect: `Credits per issue: ${CREDITS_PER_ISSUE} → ${CREDITS_PER_ISSUE + BONUS_CREDITS_AMOUNT}`
+  }
+}
+
+/**
+ * Default game settings
+ */
+export const DEFAULT_SETTINGS: GameSettings = {
+  autoCycleSpeed: 1000,
+  animationsEnabled: true,
+  showTutorial: false  // Don't show tutorial by default to avoid test conflicts
+}
+
+/**
+ * Calculate cycles per stage with upgrades applied
+ */
+export function getCyclesPerStage(upgrades: Record<UpgradeType, number>): Record<Stage, number> {
+  const base = { ...CYCLES_PER_STAGE }
+  
+  // Apply faster-development upgrade
+  if (upgrades['faster-development'] > 0) {
+    base['in-development'] = Math.max(1, base['in-development'] - upgrades['faster-development'])
+  }
+  
+  return base
+}
+
+/**
+ * Calculate credits per issue with upgrades applied
+ */
+export function getCreditsPerIssue(upgrades: Record<UpgradeType, number>): number {
+  let credits = CREDITS_PER_ISSUE
+  
+  // Apply bonus-credits upgrade
+  if (upgrades['bonus-credits'] > 0) {
+    credits += BONUS_CREDITS_AMOUNT * upgrades['bonus-credits']
+  }
+  
+  return credits
+}
