@@ -117,22 +117,51 @@ npm run lint
 
 ## Features
 
-- Responsive design optimized for various screen sizes
-- Dark theme UI using Tailwind CSS
-- Base layout with:
-  - HUD header showing resources and production rates
-  - Production pipeline area (placeholder)
-  - Available machines sidebar
-- Tailwind CSS configured with automatic purging for optimal bundle size
-- TypeScript for type safety
-- Vitest test suite with React Testing Library
-- ESLint configuration for code quality
+- **Interactive Pipeline Board**: Visual representation of the software development lifecycle
+  - Four stages: Scheduled → In Development → In Review → Merged
+  - Real-time issue tracking with cycle counters
+  - Deterministic issue progression through pipeline stages
+- **Game Mechanics**:
+  - Spawn issues into the pipeline (maximum 50 concurrent issues)
+  - Manual cycle advancement to progress issues through stages
+  - Auto-cycle mode for automated gameplay (1 cycle per second)
+  - Throughput metrics showing issues processed per cycle
+- **Responsive Design**: Optimized for various screen sizes with dark theme UI
+- **HUD Dashboard**: Real-time display of current cycle, processed issues, and throughput
+- **Client-Side Logic**: All game state managed in browser with React hooks
+- **Type-Safe**: Full TypeScript implementation with comprehensive type definitions
+- **Tested**: Complete test suite with React Testing Library (22 tests)
+- **Developer Experience**:
+  - Tailwind CSS configured with automatic purging for optimal bundle size
+  - Vitest test suite with React Testing Library
+  - ESLint configuration for code quality
+
+## Game Mechanics
+
+The pipeline simulates a software development workflow where issues progress through stages:
+
+1. **Scheduled** (1 cycle) → Issues wait to be picked up
+2. **In Development** (2 cycles) → Active development work
+3. **In Review** (1 cycle) → Code review and QA
+4. **Merged** (1 cycle) → Completed and visible before removal
+
+Issues automatically advance after spending the required cycles in each stage. Players can:
+- **Spawn Issue**: Create new work items (max 50 concurrent)
+- **Advance Cycle**: Manually progress all issues by one cycle
+- **Auto-Cycle**: Enable automatic progression every second
+
+**Throughput** measures efficiency as: `Total Processed Issues / Total Cycles`
 
 ## Edge Cases Handled
 
 - ✅ `npm install` works on clean machine with locked dependencies (package-lock.json)
 - ✅ Tailwind purges unused CSS to keep bundle small (configured in tailwind.config.js)
 - ✅ Base HTML includes viewport meta tag for mobile responsiveness
+- ✅ Maximum 50 concurrent issues enforced to prevent performance degradation
+- ✅ Zero issues state handled gracefully across all pipeline stages
+- ✅ Issue ordering remains stable during concurrent spawning and cycle advancement
+- ✅ Auto-cycle cleanup prevents memory leaks on component unmount
+- ✅ Merged issues visible for one cycle before removal to show completion
 
 ## Contributing
 
