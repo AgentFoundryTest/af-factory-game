@@ -1,73 +1,113 @@
-# React + TypeScript + Vite
+# Factory Game - Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A client-side automation game built with Vite + React + TypeScript + Tailwind CSS. This is the main web application for the Factory Game project.
 
-Currently, two official plugins are available:
+## About
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a serverless, single-page application (SPA) where all game logic runs in the browser. The game features a production pipeline system where players can build and manage automated factories.
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js (version 18 or higher recommended)
+- npm or yarn
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Install dependencies:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Start Development Server
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Run the development server with hot module replacement:
+
+```bash
+npm run dev
 ```
+
+The application will be available at `http://localhost:5173/`
+
+### Build for Production
+
+Create an optimized production build with TypeScript type checking:
+
+```bash
+npm run build
+```
+
+The static files will be output to the `dist/` directory.
+
+### Preview Production Build
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+### Run Tests
+
+Execute the test suite:
+
+```bash
+npm test
+```
+
+For watch mode during development:
+
+```bash
+npm test -- --watch
+```
+
+### Lint Code
+
+Run ESLint to check code quality:
+
+```bash
+npm run lint
+```
+
+## Technology Stack
+
+- **Vite** - Fast build tool and dev server
+- **React 19** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS v4** - Utility-first CSS framework
+- **Vitest** - Unit testing framework
+- **React Testing Library** - Component testing utilities
+- **ESLint** - Code linting
+
+## Project Constraints
+
+- **Client-side only**: All game logic runs in the browser, no backend required
+- **No routing**: Single page application without client-side routing
+- **No server APIs**: All data is managed locally in the browser
+- **Static deployment**: Can be deployed to any static hosting service
+
+## Current Features
+
+- Responsive dark theme UI
+- HUD header showing resources and production rates
+- Production pipeline area (placeholder for drag-and-drop functionality)
+- Available machines sidebar (Collector, Processor, Assembler)
+- Tailwind CSS with automatic purging for optimal bundle size
+- Full TypeScript type checking
+- Comprehensive test suite
+
+## Contributing
+
+When adding new features:
+
+1. Write tests for new components
+2. Run `npm run lint` to check code style
+3. Run `npm test` to ensure all tests pass
+4. Run `npm run build` to verify production build works
+
+## License
+
+This project is licensed under the GPLv3 License - see the LICENSE file in the repository root for details.
+
