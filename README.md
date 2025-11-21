@@ -124,13 +124,32 @@ npm run lint
 - **Game Mechanics**:
   - Spawn issues into the pipeline (maximum 50 concurrent issues)
   - Manual cycle advancement to progress issues through stages
-  - Auto-cycle mode for automated gameplay (1 cycle per second)
+  - Auto-cycle mode for automated gameplay (configurable speed: 500ms-3000ms per cycle)
   - Throughput metrics showing issues processed per cycle
+  - **Credits System**: Earn 10 credits per completed issue
+  - **Upgrades**: Purchase upgrades to improve efficiency
+    - Faster Development: Reduce dev time from 2 to 1 cycle (50 credits)
+    - More upgrades available at max level indicators
+- **HUD Dashboard**: Enhanced real-time display showing:
+  - Current cycle count
+  - Total processed issues
+  - Throughput efficiency score
+  - Credits balance
+  - Active upgrade effects
+- **Settings & Customization**:
+  - Adjustable auto-cycle speed (500ms to 3000ms)
+  - Animation toggle for performance
+  - Tutorial/help system with comprehensive game instructions
+  - Reset game functionality with confirmation
+- **Persistence**: 
+  - All game state automatically saved to `localStorage`
+  - Progress persists across browser sessions
+  - Graceful fallback to in-memory state when localStorage unavailable (private browsing)
+  - Schema migration support for future updates
 - **Responsive Design**: Optimized for various screen sizes with dark theme UI
-- **HUD Dashboard**: Real-time display of current cycle, processed issues, and throughput
 - **Client-Side Logic**: All game state managed in browser with React hooks
 - **Type-Safe**: Full TypeScript implementation with comprehensive type definitions
-- **Tested**: Complete test suite with React Testing Library (22 tests)
+- **Tested**: Complete test suite with React Testing Library (46 tests)
 - **Developer Experience**:
   - Tailwind CSS configured with automatic purging for optimal bundle size
   - Vitest test suite with React Testing Library
@@ -141,16 +160,27 @@ npm run lint
 The pipeline simulates a software development workflow where issues progress through stages:
 
 1. **Scheduled** (1 cycle) → Issues wait to be picked up
-2. **In Development** (2 cycles) → Active development work
+2. **In Development** (2 cycles by default, 1 with upgrade) → Active development work
 3. **In Review** (1 cycle) → Code review and QA
 4. **Merged** (1 cycle) → Completed and visible before removal
 
 Issues automatically advance after spending the required cycles in each stage. Players can:
 - **Spawn Issue**: Create new work items (max 50 concurrent)
 - **Advance Cycle**: Manually progress all issues by one cycle
-- **Auto-Cycle**: Enable automatic progression every second
+- **Auto-Cycle**: Enable automatic progression (configurable speed)
+
+**Credits & Upgrades**: Complete issues to earn credits (10 per issue) which can be spent on upgrades that reduce cycle times and improve efficiency.
 
 **Throughput** measures efficiency as: `Total Processed Issues / Total Cycles`
+
+## Controls
+
+- **Spawn Issue** - Create a new work item (max 50 concurrent)
+- **Advance Cycle** - Manually progress all issues by one cycle
+- **Start/Stop Auto-Cycle** - Toggle automatic progression
+- **Buy Upgrades** - Spend credits to reduce cycle times
+- **? Help** - Open tutorial with detailed game instructions
+- **Settings** - Adjust game speed, animations, and reset progress
 
 ## Edge Cases Handled
 
@@ -162,6 +192,11 @@ Issues automatically advance after spending the required cycles in each stage. P
 - ✅ Issue ordering remains stable during concurrent spawning and cycle advancement
 - ✅ Auto-cycle cleanup prevents memory leaks on component unmount
 - ✅ Merged issues visible for one cycle before removal to show completion
+- ✅ LocalStorage unavailable (private mode) gracefully falls back to in-memory state
+- ✅ Persistence schema migrations handle missing/extra fields safely
+- ✅ Upgrade purchases prevented when credits are insufficient
+- ✅ Credits properly awarded on issue completion
+- ✅ Upgrade effects applied immediately to cycle timing
 
 ## Contributing
 
