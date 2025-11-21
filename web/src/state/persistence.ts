@@ -1,11 +1,19 @@
 import type { GameState } from '../types/game'
 
 const STORAGE_KEY = 'factory-game-state'
-const SCHEMA_VERSION = 1
+const SCHEMA_VERSION = 2
 
 interface PersistedState {
   version: number
   state: GameState
+}
+
+// Legacy state structure for migration
+interface LegacyGameStateV1 extends Omit<GameState, 'upgrades'> {
+  upgrades: {
+    'faster-development': number
+    'faster-review': number
+  }
 }
 
 /**
@@ -61,11 +69,12 @@ export function loadGameState(): GameState | null {
     
     // Handle schema migrations
     if (persistedState.version !== SCHEMA_VERSION) {
-      console.warn('Schema version mismatch, migrating state')
-      return migrateState()
+      console.warn('Schema version mismatch, migrating state from version', persistedState.version, 'to', SCHEMA_VERSION)
+      return migrateState(persistedState)
     }
 
-    return persistedState.state
+    // Ensure upgrades object has all current upgrade types
+    return ensureUpgradesComplete(persistedState.state)
   } catch (error) {
     console.error('Failed to load game state:', error)
     return null
@@ -73,13 +82,51 @@ export function loadGameState(): GameState | null {
 }
 
 /**
+ * Ensure all current upgrade types exist in the upgrades object
+ */
+function ensureUpgradesComplete(state: GameState): GameState {
+  const upgrades = { ...state.upgrades }
+  
+  // Ensure all current upgrade types exist
+  if (upgrades['faster-development'] === undefined) {
+    upgrades['faster-development'] = 0
+  }
+  if (upgrades['bonus-credits'] === undefined) {
+    upgrades['bonus-credits'] = 0
+  }
+  
+  return {
+    ...state,
+    upgrades
+  }
+}
+
+/**
  * Migrate state from older schema versions
  */
-function migrateState(): GameState | null {
-  // For now, if version doesn't match, return null to start fresh
-  // In future, add specific migration logic here
-  console.warn('No migration path available, starting fresh')
-  return null
+function migrateState(persistedState: PersistedState): GameState | null {
+  try {
+    if (persistedState.version === 1) {
+      // Migrate from v1 to v2: replace faster-review with bonus-credits
+      const oldState = persistedState.state as unknown as LegacyGameStateV1
+      const newState: GameState = {
+        ...oldState,
+        upgrades: {
+          'faster-development': oldState.upgrades['faster-development'] || 0,
+          'bonus-credits': 0  // Reset faster-review to 0 for new upgrade
+        }
+      }
+      console.log('Migrated state from v1 to v2')
+      return ensureUpgradesComplete(newState)
+    }
+    
+    // Unknown version, start fresh
+    console.warn('Unknown schema version, starting fresh')
+    return null
+  } catch (error) {
+    console.error('Migration failed:', error)
+    return null
+  }
 }
 
 /**
