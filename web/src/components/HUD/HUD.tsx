@@ -1,5 +1,5 @@
 import type { GameState } from '../../types/game'
-import { getCyclesPerStage } from '../../types/game'
+import { getCyclesPerStage, getCreditsPerIssue } from '../../types/game'
 
 interface HUDProps {
   gameState: GameState
@@ -14,6 +14,9 @@ export function HUD({ gameState }: HUDProps) {
   // Get current cycle times with upgrades
   const cyclesPerStage = getCyclesPerStage(gameState.upgrades)
   const devCycles = cyclesPerStage['in-development']
+  
+  // Get credits per issue with upgrades
+  const creditsPerIssue = getCreditsPerIssue(gameState.upgrades)
 
   return (
     <header className="bg-gray-800 border-b border-gray-700 p-4">
@@ -37,7 +40,7 @@ export function HUD({ gameState }: HUDProps) {
         </div>
         
         {/* Upgrade effects display */}
-        {(gameState.upgrades['faster-development'] > 0 || gameState.upgrades['faster-review'] > 0) && (
+        {(gameState.upgrades['faster-development'] > 0 || gameState.upgrades['bonus-credits'] > 0) && (
           <div className="flex gap-2 text-sm">
             <span className="text-gray-400">Active Upgrades:</span>
             {gameState.upgrades['faster-development'] > 0 && (
@@ -45,9 +48,9 @@ export function HUD({ gameState }: HUDProps) {
                 ⚡ Dev Time: {devCycles} cycle{devCycles !== 1 ? 's' : ''}
               </span>
             )}
-            {gameState.upgrades['faster-review'] > 0 && (
-              <span className="text-purple-300">
-                ⚡ Review Time: 1 cycle
+            {gameState.upgrades['bonus-credits'] > 0 && (
+              <span className="text-emerald-300">
+                💰 Credits: {creditsPerIssue} per issue
               </span>
             )}
           </div>

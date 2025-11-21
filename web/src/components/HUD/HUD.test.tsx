@@ -13,7 +13,7 @@ describe('HUD', () => {
     credits: 0,
     upgrades: {
       'faster-development': 0,
-      'faster-review': 0
+      'bonus-credits': 0
     },
     settings: {
       autoCycleSpeed: 1000,
@@ -64,11 +64,22 @@ describe('HUD', () => {
     const state = createMockState({ 
       upgrades: {
         'faster-development': 1,
-        'faster-review': 0
+        'bonus-credits': 0
       }
     })
     render(<HUD gameState={state} />)
     expect(screen.getByText(/Dev Time: 1 cycle/)).toBeInTheDocument()
+  })
+
+  it('shows bonus credits upgrade effect', () => {
+    const state = createMockState({ 
+      upgrades: {
+        'faster-development': 0,
+        'bonus-credits': 1
+      }
+    })
+    render(<HUD gameState={state} />)
+    expect(screen.getByText(/Credits: 15 per issue/)).toBeInTheDocument()
   })
 
   it('does not show upgrade effects when no upgrades are active', () => {

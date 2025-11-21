@@ -14,7 +14,7 @@ describe('Upgrades', () => {
     credits: 0,
     upgrades: {
       'faster-development': 0,
-      'faster-review': 0
+      'bonus-credits': 0
     },
     settings: {
       autoCycleSpeed: 1000,
@@ -29,7 +29,7 @@ describe('Upgrades', () => {
     render(<Upgrades gameState={state} onPurchase={vi.fn()} />)
     
     expect(screen.getByText('Faster Development')).toBeInTheDocument()
-    expect(screen.getByText('Faster Review')).toBeInTheDocument()
+    expect(screen.getByText('Bonus Credits')).toBeInTheDocument()
   })
 
   it('shows upgrade costs', () => {
@@ -37,20 +37,20 @@ describe('Upgrades', () => {
     render(<Upgrades gameState={state} onPurchase={vi.fn()} />)
     
     expect(screen.getByText(/Buy \(50 credits\)/)).toBeInTheDocument()
-    // Faster Review shows "Max Level" since it has maxLevel: 0
+    expect(screen.getByText(/Buy \(40 credits\)/)).toBeInTheDocument()
   })
 
   it('shows upgrade levels', () => {
     const state = createMockState({ 
       upgrades: {
         'faster-development': 1,
-        'faster-review': 0
+        'bonus-credits': 0
       }
     })
     render(<Upgrades gameState={state} onPurchase={vi.fn()} />)
     
     expect(screen.getByText('Lv. 1/1')).toBeInTheDocument()
-    expect(screen.getByText('Lv. 0/0')).toBeInTheDocument()
+    expect(screen.getByText('Lv. 0/1')).toBeInTheDocument()
   })
 
   it('disables purchase button when insufficient credits', () => {
@@ -75,7 +75,7 @@ describe('Upgrades', () => {
       credits: 100,
       upgrades: {
         'faster-development': 1,
-        'faster-review': 0
+        'bonus-credits': 1
       }
     })
     render(<Upgrades gameState={state} onPurchase={vi.fn()} />)

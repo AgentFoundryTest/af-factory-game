@@ -3,8 +3,8 @@ import type { GameState, Issue, UpgradeType } from '../types/game'
 import { 
   STAGE_ORDER, 
   getCyclesPerStage, 
+  getCreditsPerIssue,
   MAX_CONCURRENT_ISSUES,
-  CREDITS_PER_ISSUE,
   UPGRADE_DEFINITIONS,
   DEFAULT_SETTINGS
 } from '../types/game'
@@ -23,7 +23,7 @@ function createInitialState(): GameState {
     credits: 0,
     upgrades: {
       'faster-development': 0,
-      'faster-review': 0
+      'bonus-credits': 0
     },
     settings: { ...DEFAULT_SETTINGS }
   }
@@ -115,12 +115,14 @@ export function useGameState() {
           return true
         })
 
+      const creditsPerIssue = getCreditsPerIssue(prev.upgrades)
+
       return {
         ...prev,
         issues: updatedIssues,
         currentCycle: prev.currentCycle + 1,
         totalIssuesProcessed: prev.totalIssuesProcessed + mergedCount,
-        credits: prev.credits + (mergedCount * CREDITS_PER_ISSUE)
+        credits: prev.credits + (mergedCount * creditsPerIssue)
       }
     })
   }, [])

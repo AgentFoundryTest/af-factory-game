@@ -74,11 +74,11 @@ export function Tutorial({ showOnStart, onClose }: TutorialProps) {
             <section>
               <h3 className="text-lg font-bold text-white mb-2">⚡ Upgrades</h3>
               <p>
-                Spend credits to purchase upgrades that reduce cycle times:
+                Spend credits to purchase upgrades that improve your efficiency:
               </p>
               <ul className="list-disc list-inside space-y-1 mt-2">
                 <li><strong>Faster Development</strong> - Reduce dev time from 2 to 1 cycle</li>
-                <li><strong>Faster Review</strong> - Already at minimum (1 cycle)</li>
+                <li><strong>Bonus Credits</strong> - Earn 15 credits per issue instead of 10</li>
               </ul>
             </section>
 

@@ -36,7 +36,7 @@ export interface Issue {
 /**
  * Upgrade types that affect gameplay
  */
-export type UpgradeType = 'faster-development' | 'faster-review'
+export type UpgradeType = 'faster-development' | 'bonus-credits'
 
 /**
  * Upgrade definition
@@ -111,13 +111,13 @@ export const UPGRADE_DEFINITIONS: Readonly<Record<UpgradeType, Omit<Upgrade, 'le
     maxLevel: 1,
     effect: 'Dev cycles: 2 → 1'
   },
-  'faster-review': {
-    id: 'faster-review',
-    name: 'Faster Review',
-    description: 'Reduce review time (currently at minimum)',
-    cost: 30,
-    maxLevel: 0, // Already at 1 cycle minimum
-    effect: 'Review cycles: 1 (minimum)'
+  'bonus-credits': {
+    id: 'bonus-credits',
+    name: 'Bonus Credits',
+    description: 'Earn 5 additional credits per completed issue',
+    cost: 40,
+    maxLevel: 1,
+    effect: 'Credits per issue: 10 → 15'
   }
 }
 
@@ -141,7 +141,19 @@ export function getCyclesPerStage(upgrades: Record<UpgradeType, number>): Record
     base['in-development'] = Math.max(1, base['in-development'] - upgrades['faster-development'])
   }
   
-  // faster-review would reduce review time, but it's already at minimum (1 cycle)
-  
   return base
+}
+
+/**
+ * Calculate credits per issue with upgrades applied
+ */
+export function getCreditsPerIssue(upgrades: Record<UpgradeType, number>): number {
+  let credits = CREDITS_PER_ISSUE
+  
+  // Apply bonus-credits upgrade
+  if (upgrades['bonus-credits'] > 0) {
+    credits += 5 * upgrades['bonus-credits']
+  }
+  
+  return credits
 }

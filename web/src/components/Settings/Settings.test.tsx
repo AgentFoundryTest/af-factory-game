@@ -14,7 +14,7 @@ describe('Settings', () => {
     credits: 0,
     upgrades: {
       'faster-development': 0,
-      'faster-review': 0
+      'bonus-credits': 0
     },
     settings: {
       autoCycleSpeed: 1000,
